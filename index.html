@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="verify-admitad" content="b0dcc3295c" />
+    <title>NeoClicker - Модный кликер 2024</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 30px auto 0;
+            max-width: 600px;
+            text-align: center;
+        }
+        .ad-link {
+            color: #4776e6;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .ad-container {
+            margin-top: 20px;
+            padding: 10px;
+            background: linear-gradient(135deg, rgba(110, 72, 170, 0.2), rgba(157, 80, 187, 0.2));
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NeoClicker</h1>
+        <p>Кликай по кругу, чтобы зарабатывать очки!</p>
+        
+        <div class="clicker" id="clicker">
+            <div class="click-count" id="clicks">0</div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat">
+                <div>Кликов в секунду</div>
+                <div id="cps">0</div>
+            </div>
+            <div class="stat">
+                <div>Всего кликов</div>
+                <div id="total-clicks">0</div>
+            </div>
+        </div>
+        
+        <h2>Улучшения</h2>
+        <div class="upgrades" id="upgrades">
+            <!-- Улучшения будут добавляться через JavaScript -->
+        </div>
+
+        <!-- Рекламный блок -->
+        <div class="ad-container">
+            <div class="ad-banner">
+                <p>Хотите больше кликов? Попробуйте наш партнер!</p>
+                <a href="https://rzekl.com/g/1e8d114494b0dcc3295c16525dc3e8/?ulp=https%3A%2F%2Fcrowndoge.github.io%2Fneo_clicker%2F" 
+                   class="ad-link" 
+                   target="_blank">
+                   Получить бонусные клики
+                </a>
+            </div>
+        </div>
+        
+        <div class="buttons-container">
+            <button class="donate-btn" id="donate-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+                Поддержать разработчика
+            </button>
+            <button class="reset-btn" id="reset-btn">Сбросить прогресс</button>
+        </div>
+    </div>
+    
+    <div class="save-notification" id="save-notification">Прогресс сохранён!</div>
+
+    <script src="script.js"></script>
+    <script>
+        // Добавляем рекламное улучшение
+        document.addEventListener('DOMContentLoaded', function() {
+            // Добавляем рекламное улучшение в список
+            upgrades.push({
+                id: 99,
+                name: "Рекламный бонус",
+                cost: 0,
+                baseCost: 0,
+                owned: 0,
+                cps: 0,
+                special: true,
+                onClick: function() {
+                    window.open('https://rzekl.com/g/1e8d114494b0dcc3295c16525dc3e8/?ulp=https%3A%2F%2Fcrowndoge.github.io%2Fneo_clicker%2F', '_blank');
+                    // Даем бонус за переход
+                    clicks += 1000;
+                    totalClicks += 1000;
+                    updateUI();
+                    saveGame();
+                    
+                    // Показываем уведомление
+                    const notification = document.createElement('div');
+                    notification.className = 'save-notification show';
+                    notification.textContent = 'Вы получили 1000 бонусных кликов!';
+                    document.body.appendChild(notification);
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                        setTimeout(() => notification.remove(), 300);
+                    }, 3000);
+                }
+            });
+            
+            // Обновляем список улучшений
+            initUpgrades();
+        });
+
+        // Модифицируем функцию покупки улучшений
+        function buyUpgrade(id) {
+            const upgrade = upgrades.find(u => u.id === id);
+            
+            if (upgrade.special) {
+                upgrade.onClick();
+                return;
+            }
+            
+            if (clicks >= upgrade.cost) {
+                clicks -= upgrade.cost;
+                upgrade.owned++;
+                upgrade.cost = Math.floor(upgrade.baseCost * Math.pow(1.15, upgrade.owned));
+                updateCPS();
+                updateUI();
+                initUpgrades();
+                saveGame();
+                
+                createParticles(upgradesElement.children[id-1], 10);
+            }
+        }
+    </script>
+</body>
+</html>
